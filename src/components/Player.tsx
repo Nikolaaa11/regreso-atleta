@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { fmt, type Phase, type Workout } from '../lib/store';
 import { kcalFor, workoutMinutes } from '../lib/plan';
 import { Press, Ring, Sheet, spring } from './ui';
+import { ExerciseAnim } from './ExerciseAnim';
 
 export interface Result {
   durationSec: number;
@@ -221,7 +222,9 @@ export function Player({ workout, weightKg, onExit }: { workout: Workout; weight
           </motion.h2>
         </AnimatePresence>
 
-        <motion.div className={`dial ${timeStep ? '' : 'tap'}`} onClick={tap} whileTap={timeStep ? undefined : { scale: 0.95 }} transition={spring}>
+        <ExerciseAnim name={step.phase === 'rest' ? nextStep?.name ?? 'Descanso' : step.name} className="anim" />
+
+        <motion.div className={`dial sm ${timeStep ? '' : 'tap'}`} onClick={tap} whileTap={timeStep ? undefined : { scale: 0.95 }} transition={spring}>
           <svg viewBox="0 0 300 300">
             <circle cx="150" cy="150" r="138" fill="none" stroke="rgba(0,0,0,0.07)" strokeWidth="16" />
             <circle cx="150" cy="150" r="138" fill="none" stroke={ph.color} strokeWidth="16" strokeLinecap="round" strokeDasharray={2 * Math.PI * 138} strokeDashoffset={2 * Math.PI * 138 * (1 - Math.min(1, progress))} style={{ transition: 'stroke-dashoffset 0.12s linear' }} />

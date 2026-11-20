@@ -1,8 +1,9 @@
 import { motion } from 'motion/react';
 import { useState } from 'react';
 import { dkey, setState, useStore, weekOf, type Workout } from '../lib/store';
-import { DAYS_LONG, PHASES, RUN, phaseOf, workoutFor, workoutMinutes } from '../lib/plan';
-import { fadeUp, Press } from '../components/ui';
+import { DAYS_LONG, LIBRARY, PHASES, RUN, phaseOf, workoutFor, workoutMinutes } from '../lib/plan';
+import { fadeUp, Press, Sheet } from '../components/ui';
+import { ExerciseAnim } from '../components/ExerciseAnim';
 
 const PHASE_TEXT = [
   'Semanas 1–3 · Reactivar. Despertar el motor con trote–caminata y fuerza ligera. El objetivo es llegar con ganas a la siguiente semana, no cansarte.',
@@ -14,6 +15,7 @@ export function Plan({ onPreview }: { onPreview: (w: Workout) => void }) {
   const s = useStore();
   const cur = weekOf(s.startDate);
   const [week, setWeek] = useState(cur);
+  const [sel, setSel] = useState<{ name: string; cue: string } | null>(null);
   const now = new Date();
   const dow = (now.getDay() + 6) % 7;
   const doneIds = new Set(s.sessions.map((x) => x.workout.id));
@@ -63,6 +65,26 @@ export function Plan({ onPreview }: { onPreview: (w: Workout) => void }) {
           );
         })}
       </div>
+
+      <h2 className="h2">Biblioteca de ejercicios</h2>
+      <p className="sub" style={{ marginBottom: 14 }}>Toca uno para ver la técnica en grande.</p>
+      <div className="lib">
+        {LIBRARY.map((e) => (
+          <Press key={e.name} className="gcard lib-card" onClick={() => setSel(e)}>
+            <ExerciseAnim name={e.name} className="anim sm" />
+            <div className="gname">{e.name}</div>
+          </Press>
+        ))}
+      </div>
+      <Sheet open={!!sel} onClose={() => setSel(null)}>
+        {sel && (
+          <>
+            <ExerciseAnim name={sel.name} className="anim big" />
+            <h2 className="h2" style={{ margin: '14px 0 6px' }}>{sel.name}</h2>
+            <p className="sub">{sel.cue}</p>
+          </>
+        )}
+      </Sheet>
 
       <div className="card" style={{ marginTop: 22 }}>
         <div className="row between wrap">

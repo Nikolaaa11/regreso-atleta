@@ -36,6 +36,8 @@ const X = {
   pecho: E('Apertura de pecho', 'Manos tras la espalda, abre el pecho.'),
 };
 
+export const LIBRARY: Ex[] = Object.values(X);
+
 const lvl = (w: number) => (w <= 3 ? 0 : w <= 8 ? 1 : 2);
 const pick = <T,>(w: number, a: [T, T, T]) => a[lvl(w)];
 

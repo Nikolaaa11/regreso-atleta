@@ -11,6 +11,13 @@ import { Expediente } from './views/Expediente';
 
 const TABS = ['Hoy', 'Plan', 'Historial', 'Progreso', 'Expediente'] as const;
 type Tab = (typeof TABS)[number];
+const ICONS: Record<Tab, string> = {
+  Hoy: 'M3 11l9-8 9 8v10h-6v-6H9v6H3z',
+  Plan: 'M5 4h14a2 2 0 012 2v14H3V6a2 2 0 012-2zM3 9h18M8 2v4M16 2v4',
+  Historial: 'M12 3a9 9 0 100 18 9 9 0 000-18zM12 7v5l3 2',
+  Progreso: 'M5 20V11M12 20V4M19 20v-6M2 20h20',
+  Expediente: 'M11 4a7 7 0 100 14 7 7 0 000-14zM16 16l5 5',
+};
 
 export default function App() {
   const s = useStore();
@@ -56,6 +63,9 @@ export default function App() {
         {TABS.map((t) => (
           <button key={t} className={`tab ${tab === t ? 'on' : ''}`} onClick={() => { setTab(t); window.scrollTo({ top: 0 }); }}>
             {tab === t && <motion.span layoutId="tabbg" className="bg" transition={{ type: 'spring', stiffness: 420, damping: 34 }} />}
+            <svg className="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d={ICONS[t]} />
+            </svg>
             {t}
           </button>
         ))}

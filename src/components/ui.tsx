@@ -1,4 +1,4 @@
-import { animate, AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { animate, AnimatePresence, motion, useDragControls, useReducedMotion } from 'motion/react';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 
 export const spring = { type: 'spring', stiffness: 380, damping: 32 } as const;
@@ -52,6 +52,7 @@ export function Press({ children, className, onClick, disabled, style }: { child
 }
 
 export function Sheet({ open, onClose, children }: { open: boolean; onClose: () => void; children: ReactNode }) {
+  const controls = useDragControls();
   return (
     <AnimatePresence>
       {open && (
@@ -64,13 +65,17 @@ export function Sheet({ open, onClose, children }: { open: boolean; onClose: () 
             exit={{ y: '100%' }}
             transition={{ type: 'spring', stiffness: 300, damping: 34 }}
             drag="y"
+            dragListener={false}
+            dragControls={controls}
             dragConstraints={{ top: 0, bottom: 0 }}
             dragElastic={{ top: 0, bottom: 0.6 }}
             onDragEnd={(_, i) => {
               if (i.offset.y > 120 || i.velocity.y > 600) onClose();
             }}
           >
-            <div className="grab" />
+            <div className="grab-area" onPointerDown={(e) => controls.start(e)}>
+              <div className="grab" />
+            </div>
             {children}
           </motion.div>
         </>

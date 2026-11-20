@@ -49,17 +49,17 @@ export function Hoy({ onPlay, onPreview }: { onPlay: (w: Workout) => void; onPre
       <div className="card">
         <div className="rings">
           <div className="ringbox">
-            <Ring value={weekSessions.length / 6} size={104} color="#ff375f"><b style={{ fontSize: 24 }}><CountUp to={weekSessions.length} /></b></Ring>
+            <Ring value={weekSessions.length / 6} size={92} stroke={11} color="#ff375f"><b style={{ fontSize: 24 }}><CountUp to={weekSessions.length} /></b></Ring>
             <div className="v" style={{ fontSize: 15 }}>Entrenos</div>
             <div className="l">meta 6</div>
           </div>
           <div className="ringbox">
-            <Ring value={mins / 180} size={104} color="#30b350"><b style={{ fontSize: 24 }}><CountUp to={mins} /></b></Ring>
+            <Ring value={mins / 180} size={92} stroke={11} color="#30b350"><b style={{ fontSize: 24 }}><CountUp to={mins} /></b></Ring>
             <div className="v" style={{ fontSize: 15 }}>Minutos</div>
             <div className="l">meta 180</div>
           </div>
           <div className="ringbox">
-            <Ring value={streak / 7} size={104} color="#32ade6"><b style={{ fontSize: 24 }}><CountUp to={streak} /></b></Ring>
+            <Ring value={streak / 7} size={92} stroke={11} color="#32ade6"><b style={{ fontSize: 24 }}><CountUp to={streak} /></b></Ring>
             <div className="v" style={{ fontSize: 15 }}>Racha</div>
             <div className="l">días seguidos</div>
           </div>

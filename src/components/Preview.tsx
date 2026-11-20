@@ -1,6 +1,7 @@
 import { fmt, type Workout } from '../lib/store';
 import { stepSeconds, workoutMinutes } from '../lib/plan';
 import { Press, Sheet } from './ui';
+import { ExerciseAnim } from './ExerciseAnim';
 
 export function Preview({ workout, onClose, onStart, weightKg }: { workout: Workout | null; onClose: () => void; onStart: (w: Workout) => void; weightKg: number }) {
   const w = workout;
@@ -13,6 +14,15 @@ export function Preview({ workout, onClose, onStart, weightKg }: { workout: Work
           <h2 className="h2" style={{ margin: '4px 0 6px' }}>{w.title}</h2>
           <p className="sub" style={{ marginBottom: 16 }}>{w.subtitle}</p>
           <Press className="btn" style={{ width: '100%', marginBottom: 18 }} onClick={() => onStart(w)}>Empezar ahora</Press>
+          <div className="eyebrow" style={{ marginBottom: 8 }}>Ejercicios de esta sesión</div>
+          <div className="gallery">
+            {[...new Set(w.steps.filter((s) => s.phase !== 'rest').map((s) => s.name))].map((n) => (
+              <div key={n} className="gcard">
+                <ExerciseAnim name={n} className="anim sm" />
+                <div className="gname">{n}</div>
+              </div>
+            ))}
+          </div>
           <div className="list">
             {w.steps.map((s, i) => (
               <div key={i} className="item" style={{ padding: '10px 14px', borderRadius: 16, opacity: s.phase === 'rest' ? 0.6 : 1 }}>
